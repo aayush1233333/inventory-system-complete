@@ -72,38 +72,6 @@ function Sidebar({ open, onClose }) {
         })}
       </nav>
 
-      <div
-        style={{
-          padding: '14px',
-          borderTop: '1px solid var(--border)',
-          marginTop: 'auto',
-        }}
-      >
-        <div
-          style={{
-            padding: '12px 14px',
-            borderRadius: 'var(--radius)',
-            background: 'var(--surface-2)',
-            border: '1px solid var(--border)',
-          }}
-        >
-          <div
-            style={{
-              fontSize: 12,
-              color: 'var(--text-3)',
-              fontFamily: 'var(--font-mono)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.5px',
-              marginBottom: 6,
-            }}
-          >
-            Required Stack
-          </div>
-          <div style={{ fontSize: 13, color: 'var(--text-2)', lineHeight: 1.5 }}>
-            React, Python API, PostgreSQL, Docker, and Docker Compose.
-          </div>
-        </div>
-      </div>
     </aside>
   );
 }
