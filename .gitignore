@@ -1,0 +1,29 @@
+# Environment
+.env
+*.env
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+dist/
+*.egg
+.pytest_cache/
+.coverage
+coverage.xml
+
+# Node
+node_modules/
+frontend/build/
+
+# Docker
+*.dockerignore
+
+# Misc
+.DS_Store
+*.log
+.idea/
+.vscode/
