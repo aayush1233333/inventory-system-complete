@@ -97,62 +97,38 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-        <div className="card">
-          <div className="card-header">
-            <span className="card-title">Quick Actions</span>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-            {[
-              { href: '/products', label: '+ Add a new product', color: 'var(--accent)' },
-              { href: '/customers', label: '+ Register a customer', color: 'var(--green)' },
-              { href: '/orders', label: '+ Create an order', color: 'var(--yellow)' },
-              { href: '/inventory', label: '⚠ View stock alerts', color: 'var(--red)' },
-            ].map(({ href, label, color }) => (
-              <a
-                key={href}
-                href={href}
-                style={{
-                  padding: '10px 14px',
-                  background: 'var(--surface-2)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 'var(--radius)',
-                  color,
-                  textDecoration: 'none',
-                  fontSize: 13,
-                  fontWeight: 500,
-                  display: 'block',
-                  transition: 'border-color 0.15s',
-                }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = color}
-                onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
-              >
-                {label}
-              </a>
-            ))}
-          </div>
+      <div className="card" style={{ maxWidth: 480 }}>
+        <div className="card-header">
+          <span className="card-title">Quick Actions</span>
         </div>
-
-        <div className="card">
-          <div className="card-header">
-            <span className="card-title">System Health</span>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {[
-              { label: 'Frontend UI', status: 'Responsive', color: 'var(--green)' },
-              { label: 'Backend API', status: 'Operational', color: 'var(--green)' },
-              { label: 'PostgreSQL DB', status: 'Connected', color: 'var(--green)' },
-              { label: 'Docker Stack', status: 'Ready', color: 'var(--green)' },
-            ].map(({ label, status, color }) => (
-              <div key={label} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ color: 'var(--text-2)', fontSize: 13 }}>{label}</span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color, fontFamily: 'var(--font-mono)' }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: color, display: 'inline-block' }} />
-                  {status}
-                </span>
-              </div>
-            ))}
-          </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {[
+            { href: '/products', label: '+ Add a new product', color: 'var(--accent)' },
+            { href: '/customers', label: '+ Register a customer', color: 'var(--green)' },
+            { href: '/orders', label: '+ Create an order', color: 'var(--yellow)' },
+            { href: '/inventory', label: '⚠ View stock alerts', color: 'var(--red)' },
+          ].map(({ href, label, color }) => (
+            <a
+              key={href}
+              href={href}
+              style={{
+                padding: '10px 14px',
+                background: 'var(--surface-2)',
+                border: '1px solid var(--border)',
+                borderRadius: 'var(--radius)',
+                color,
+                textDecoration: 'none',
+                fontSize: 13,
+                fontWeight: 500,
+                display: 'block',
+                transition: 'border-color 0.15s',
+              }}
+              onMouseEnter={e => e.currentTarget.style.borderColor = color}
+              onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
+            >
+              {label}
+            </a>
+          ))}
         </div>
       </div>
     </div>

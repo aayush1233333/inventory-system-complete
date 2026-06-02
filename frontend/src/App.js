@@ -106,28 +106,6 @@ function Layout() {
             <button className="btn btn-ghost hamburger-btn" onClick={() => setSidebarOpen(true)}><Menu /></button>
             <PageTitle />
           </div>
-          <div className="topbar-actions">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div
-                style={{
-                  width: 8,
-                  height: 8,
-                  borderRadius: '50%',
-                  background: 'var(--green)',
-                  boxShadow: '0 0 6px var(--green)',
-                }}
-              />
-              <span
-                style={{
-                  fontSize: 12,
-                  color: 'var(--text-3)',
-                  fontFamily: 'var(--font-mono)',
-                }}
-              >
-                Assessment Ready
-              </span>
-            </div>
-          </div>
         </header>
         <main className="page-body">
           <Outlet />
