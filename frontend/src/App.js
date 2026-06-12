@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { lazy, Suspense, useEffect, useState } from 'react';
 import {
   BrowserRouter,
   NavLink,
@@ -20,11 +20,12 @@ import {
 } from 'lucide-react';
 
 import './index.css';
-import Customers from './pages/Customers';
 import Dashboard from './pages/Dashboard';
-import Inventory from './pages/Inventory';
-import Orders from './pages/Orders';
-import Products from './pages/Products';
+
+const Customers = lazy(() => import('./pages/Customers'));
+const Inventory = lazy(() => import('./pages/Inventory'));
+const Orders = lazy(() => import('./pages/Orders'));
+const Products = lazy(() => import('./pages/Products'));
 
 const NAV = [
   { to: '/', icon: LayoutDashboard, label: 'Dashboard' },
@@ -107,7 +108,9 @@ function Layout() {
           </div>
         </header>
         <main className="page-body">
-          <Outlet />
+          <Suspense fallback={<div className="loading-center"><div className="spinner" /></div>}>
+            <Outlet />
+          </Suspense>
         </main>
       </div>
     </div>

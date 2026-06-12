@@ -240,11 +240,14 @@ body {
 
 .stat-value {
   font-family: var(--font-display);
-  font-size: 28px;
+  font-size: clamp(20px, 6vw, 28px);
   font-weight: 800;
   color: var(--text);
   line-height: 1;
+  letter-spacing: -0.03em;
   margin-bottom: 4px;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .stat-label {
@@ -633,4 +636,12 @@ textarea { resize: vertical; min-height: 80px; }
   .form-grid { grid-template-columns: 1fr; }
   .filters-row { flex-direction: column; align-items: stretch; }
   .search-wrap { max-width: none; }
+}
+
+@media (max-width: 480px) {
+  .page-body { padding: 20px 16px; }
+  .stats-grid { gap: 12px; }
+  .stat-card { padding: 16px; }
+  .stat-value { font-size: clamp(18px, 6vw, 24px); }
+  .stat-value-revenue { font-size: clamp(17px, 5.5vw, 22px); }
 }

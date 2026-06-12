@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy import func
+from sqlalchemy import func, select, true
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -13,33 +13,47 @@ router = APIRouter(prefix="/dashboard", tags=["Dashboard"])
 def get_stats(
     db: Session = Depends(get_db),
 ):
-    total_products = db.query(func.count(Product.id)).scalar() or 0
-    total_customers = db.query(func.count(Customer.id)).scalar() or 0
-    total_orders = db.query(func.count(Order.id)).scalar() or 0
-    pending_orders = (
-        db.query(func.count(Order.id))
-        .filter(Order.status == OrderStatus.PENDING)
-        .scalar()
-        or 0
-    )
-    low_stock = (
-        db.query(func.count(Product.id))
+    product_stats = select(
+        func.count(Product.id).label("total_products"),
+        func.count(Product.id)
         .filter(Product.stock_quantity <= Product.low_stock_threshold)
-        .scalar()
-        or 0
-    )
-    total_revenue = (
-        db.query(func.sum(Order.total_amount))
-        .filter(Order.status != OrderStatus.CANCELLED)
-        .scalar()
-        or 0.0
-    )
+        .label("low_stock_products"),
+    ).subquery()
+    customer_stats = select(
+        func.count(Customer.id).label("total_customers")
+    ).subquery()
+    order_stats = select(
+        func.count(Order.id).label("total_orders"),
+        func.count(Order.id)
+        .filter(Order.status == OrderStatus.PENDING)
+        .label("pending_orders"),
+        func.coalesce(
+            func.sum(Order.total_amount).filter(
+                Order.status != OrderStatus.CANCELLED
+            ),
+            0.0,
+        ).label("total_revenue"),
+    ).subquery()
+
+    stats = db.execute(
+        select(
+            product_stats.c.total_products,
+            customer_stats.c.total_customers,
+            order_stats.c.total_orders,
+            order_stats.c.pending_orders,
+            product_stats.c.low_stock_products,
+            order_stats.c.total_revenue,
+        )
+        .select_from(product_stats)
+        .join(customer_stats, true())
+        .join(order_stats, true())
+    ).one()
 
     return DashboardStats(
-        total_products=total_products,
-        total_customers=total_customers,
-        total_orders=total_orders,
-        pending_orders=pending_orders,
-        low_stock_products=low_stock,
-        total_revenue=round(float(total_revenue), 2),
+        total_products=stats.total_products,
+        total_customers=stats.total_customers,
+        total_orders=stats.total_orders,
+        pending_orders=stats.pending_orders,
+        low_stock_products=stats.low_stock_products,
+        total_revenue=round(float(stats.total_revenue), 2),
     )

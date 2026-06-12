@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { dashboardApi } from '../lib/api';
 import { Package, Users, ShoppingCart, AlertTriangle, TrendingUp, Clock } from 'lucide-react';
 
@@ -9,7 +10,7 @@ const STATS_CONFIG = [
     icon: TrendingUp,
     color: '#22c55e',
     bg: 'rgba(34,197,94,0.1)',
-    format: (v) => `₹${Number(v).toLocaleString('en-IN', { minimumFractionDigits: 2 })}`,
+    format: (v) => `₹${Number(v).toLocaleString('en-IN', { maximumFractionDigits: 2 })}`,
   },
   {
     key: 'total_orders',
@@ -91,7 +92,9 @@ export default function Dashboard() {
             <div className="stat-icon">
               <Icon />
             </div>
-            <div className="stat-value">{stats ? format(stats[key]) : '—'}</div>
+            <div className={`stat-value ${key === 'total_revenue' ? 'stat-value-revenue' : ''}`}>
+              {stats ? format(stats[key]) : '—'}
+            </div>
             <div className="stat-label">{label}</div>
           </div>
         ))}
@@ -108,9 +111,9 @@ export default function Dashboard() {
             { href: '/orders', label: '+ Create an order', color: 'var(--yellow)' },
             { href: '/inventory', label: '⚠ View stock alerts', color: 'var(--red)' },
           ].map(({ href, label, color }) => (
-            <a
+            <Link
               key={href}
-              href={href}
+              to={href}
               style={{
                 padding: '10px 14px',
                 background: 'var(--surface-2)',
@@ -127,7 +130,7 @@ export default function Dashboard() {
               onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border)'}
             >
               {label}
-            </a>
+            </Link>
           ))}
         </div>
       </div>
